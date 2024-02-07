@@ -70,7 +70,6 @@ if n == 17:
 str = input("Введите строку")
 import re
 print(re.findall(r'\d{1,2} \w{3,8} \d\d\d\d', str))
-'''
 
 #ex6-8 (2, 10, 17)
 print("Введите номер задания")
@@ -99,5 +98,16 @@ if n == 10:
     print(q)
 if n == 17:
     str = input("Введите строку ")
-    print(str.split('/')[-1].split('.')[0]
+    print(str.split('/')[-1].split('.')[0])
+'''
+
+#task9 Прочитать список строк с клавиатуры. Упорядочить по длине строки
+
+n = int(input("Введите количество строк "))
+input_str = []
+
+for i in range(n):
+    input_str.append(input("Введите строку: "))
+print(sorted(input_str, key=len))
+
 
