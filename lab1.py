@@ -45,6 +45,7 @@ def find(x):
                 return 1
 #print(find(27))
 #ex2-4 (2, 10, 17)
+'''
 print("Введите номер задания")
 while True:
     n = int(input())
@@ -64,3 +65,9 @@ if n == 10:
 if n == 17:
     str = input("Введите строку ")
     print(str.split('/')[-1].split('.')[0])
+'''
+#ex5
+#Дана строка. Необходимо найти все даты, которые описаны в виде "31 февраля 2007"
+str = input("Введите строку")
+import re
+print(re.findall(r'\d{1,2} \w{3,8} \d\d\d\d', str))
