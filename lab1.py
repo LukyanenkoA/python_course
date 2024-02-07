@@ -99,7 +99,6 @@ if n == 10:
 if n == 17:
     str = input("Введите строку ")
     print(str.split('/')[-1].split('.')[0])
-'''
 
 #task9 Прочитать список строк с клавиатуры. Упорядочить по длине строки
 
@@ -109,5 +108,17 @@ input_str = []
 for i in range(n):
     input_str.append(input("Введите строку: "))
 print(sorted(input_str, key=len))
+'''
+#task10 Дан список строк с клавиатуры. Упорядочить по количеству слов в строке
 
+n = int(input("Введите количество строк "))
+input_str = []
 
+for i in range(n):
+    input_str.append(input("Введите строку: "))
+for i in range(n):
+    input_str[i]=input_str[i].split(' ')
+input_str = sorted(input_str, key=len)
+for i in range(n):
+    input_str[i]=' '.join(input_str[i])
+print(input_str)
