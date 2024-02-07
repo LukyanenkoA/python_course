@@ -44,3 +44,23 @@ def find(x):
                 return i
                 return 1
 #print(find(27))
+#ex2-4 (2, 10, 17)
+print("Введите номер задания")
+while True:
+    n = int(input())
+    if n in [2,10,17]:
+        break
+    else:
+        n = int(input())
+if n == 2:
+    str = input("Введите строку")
+    if str == sorted(str):
+        print(True)
+    else:
+        print(False)
+if n == 10:
+    str = input("Введите строку")
+    print(str.count('a'))
+if n == 17:
+    str = input("Введите строку ")
+    print(str.split('/')[-1].split('.')[0])
