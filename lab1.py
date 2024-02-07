@@ -64,10 +64,40 @@ if n == 10:
     print(str.count('a'))
 if n == 17:
     str = input("Введите строку ")
-    print(str.split('/')[-1].split('.')[0])
-'''
+    print(str.split('/')[-1].split('.')[0]
 #ex5
 #Дана строка. Необходимо найти все даты, которые описаны в виде "31 февраля 2007"
 str = input("Введите строку")
 import re
 print(re.findall(r'\d{1,2} \w{3,8} \d\d\d\d', str))
+'''
+
+#ex6-8 (2, 10, 17)
+print("Введите номер задания")
+while True:
+    n = int(input())
+    if n in [2,10,17]:
+        break
+    else:
+        n = int(input())
+if n == 2:
+    str = input("Введите строку")
+    s=''
+    for el in str:
+        if el.islower() and el in 'qwertyuioplkjhgfdsazxcvbnm':
+            s += el
+    print(s)
+if n == 10:
+    q = 0
+    str = input("Введите строку")
+    str = str.lower()
+    for el in 'qwertyuioplkjhgfdsazxcvbnm':
+        if el in str:
+            q+=1
+            str = str.replace(el, '')
+            print(str)
+    print(q)
+if n == 17:
+    str = input("Введите строку ")
+    print(str.split('/')[-1].split('.')[0]
+
