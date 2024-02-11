@@ -129,7 +129,7 @@ input_str = sorted(input_str, key=len)
 for i in range(n):
     input_str[i]=' '.join(input_str[i])
 print(input_str)
-'''
+
 #ex11-14 (2, 4, 8, 10)
 n = int(input("Введите номер задания: "))
 while True:
@@ -201,3 +201,96 @@ if n == 10:
         v = sorted(v)
         return v
     print(sortStrings4(input_str, q))
+'''
+
+#ex15-19 (8, 20, 32, 44, 56)
+
+n = int(input("Введите номер задания: "))
+while True:
+    if n in [8, 20, 32, 44, 56]:
+        break
+    else:
+        n = int(input("Введите номер задания: "))
+def enter_array():
+    arr = []
+    q = int(input("Введите количество элементов массива: "))
+    for i in range(q):
+        a = float(input("Введите элемент: "))
+        if int(a) == a:
+            arr.append(int(a))
+        else:
+            arr.append(a)
+    return arr
+if n == 8:
+    #8 Дан целочисленный массив. Необходимо найти индексы двух наименьших элементов массива.
+    arr = enter_array()
+    def two_mins(a):
+        return sorted(a)[:2]
+    print(*two_mins(arr))
+
+if n == 20:
+    #20 Дан целочисленный массив. Необходимо найти все пропущенные числа.
+    arr = enter_array()
+    def find(arr):
+        arr2=[]
+        ans = []
+        m = max(*arr)
+        for i in range (m+1):
+            arr2.append(i)
+        for el in arr2:
+            if el not in arr:
+                ans.append(el)
+        return ans
+    print(find(arr))
+
+
+if n == 32:
+    #32 Дан целочисленный массив. Найти количество его локальных максимумов.
+    arr = enter_array()
+    q = len(arr)
+    def findLocalMaxima(n, arr):
+        mx = []
+        if (arr[0] > arr[1]):
+            mx.append(0)
+        for i in range(1, n - 1):
+            if (arr[i - 1] < arr[i] > arr[i + 1]):
+                mx.append(i)
+
+        if (arr[-1] > arr[-2]):
+            mx.append(n - 1)
+        if (len(mx) > 0):
+            print("Points of Local maxima" \
+                  " are : ", end='')
+            print(*mx)
+        else:
+            print("There are no points of" \
+                  " Local maxima.")
+    findLocalMaxima(q, arr)
+
+if n == 44:
+    #44 Дан массив чисел. Необходимо проверить, чередуются ли в нем целые и вещественные числа.
+    arr = enter_array()
+    def is_alternating(arr):
+        for i in range(len(arr)-1):
+            if (type(arr[i]) is int and type(arr[i+1]) is float) or (type(arr[i]) is float and type(arr[i+1]) is int):
+                return True
+            else:
+                return False
+    print(is_alternating(arr))
+
+if n == 56:
+    #Для введенного списка посчитать среднее арифметическое
+    #непростых элементов, которые больше, чем среднее арифметическое простых.
+    arr = enter_array()
+    temp = []
+    def cond_avg(arr):
+        for el in arr:
+            if is_prime(el):
+                temp.append(el)
+        avg = sum(temp)/len(temp)
+
+        for el in arr:
+            if el > avg and not is_prime(el):
+                temp.append(el)
+        return sum(temp)/len(temp)
+    print(cond_avg(arr))
