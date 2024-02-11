@@ -294,3 +294,4 @@ if n == 56:
                 temp.append(el)
         return sum(temp)/len(temp)
     print(cond_avg(arr))
+    
