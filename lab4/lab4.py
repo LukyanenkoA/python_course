@@ -36,8 +36,10 @@ word1 = input('Введите первое слово на русском язы
 word2 = input('Введите второе слово на русском языке для поиска')
 f = open('text.txt', encoding = 'utf-8', mode = 'r')
 arr = []
-while f.readline():
-    arr += f.readline().split()
+l = f.readline()
+while l:
+    arr += l.split()
+    l = f.readline()
 print(arr)
 for i in range(len(arr)):
     str = arr[i]
@@ -51,3 +53,8 @@ for i in range(len(arr)-1):
     if (arr[i]==word1 and arr[i+1]==word2) or (arr[i]==word2 and arr[i+1]==word1):
         conseq+=1
 print('Эти два слова встречаются в тексте', ans, 'раз; последовательно встречаются', conseq, 'раз')
+'''
+word1 = 'они'
+word2 = 'не'
+Эти два слова встречаются в тексте 8 раз; последовательно встречаются 2 раз
+'''
