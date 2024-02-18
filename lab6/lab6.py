@@ -77,10 +77,75 @@ cursor.executemany(query3, insert_perfomances)
 
 connection.commit()
 
+#4
+cursor.execute('SELECT name, surname, dance_name FROM Artist, Dance WHERE Dance.dance_id = Artist.dance_style')
+results = cursor.fetchall()
+for row in results:
+    print("Name: ", row[0])
+    print("Surname: ", row[1])
+    print("Dance style: ", row[2])
+
+'''
+Name:  Joe
+Surname:  Ricks
+Dance style:  Танго
+Name:  Xi
+Surname:  Zhitu
+Dance style:  Балет
+Name:  Ivan
+Surname:  Petrov
+Dance style:  Уличный танец
+Name:  Jessi
+Surname:  Kim
+Dance style:  Бальный танец
+Name:  Rodrigo
+Surname:  Este
+Dance style:  Акробатический танец
+'''
+cursor.execute('SELECT * FROM Performance')
+results = cursor.fetchall()
+for row in results:
+    print(row)
+'''
+(1, 'Grand concert', '2021-11-01', 'USA', 1, 1)
+(2, 'Dance battle', '2022-11-30', 'China', 2, 2)
+(3, 'Street beat style', '2023-01-01', 'France', 5, 3)
+(4, 'Special performance', '2021-12-01', 'Spain', 3, 4)
+(5, 'Great ball', '2021-11-01', 'USA', 4, 5)
+'''
+cursor.execute('SELECT name, surname, dance_name, title, date FROM Artist, Dance, Performance WHERE Dance.dance_id = Performance.dance_style and Performance.artist = Artist.artist_id')
+results = cursor.fetchall()
+for row in results:
+    print("Name: ", row[0])
+    print("Surname: ", row[1])
+    print("Dance style: ", row[2])
+    print("Performance: ", row[3])
+    print("Date of performance: ", row[4])
+'''
+Name:  Joe
+Surname:  Ricks
+Dance style:  Танго
+Performance:  Grand concert
+Date of performance:  2021-11-01
+Name:  Xi
+Surname:  Zhitu
+Dance style:  Балет
+Performance:  Dance battle
+Date of performance:  2022-11-30
+Name:  Ivan
+Surname:  Petrov
+Dance style:  Уличный танец
+Performance:  Street beat style
+Date of performance:  2023-01-01
+Name:  Jessi
+Surname:  Kim
+Dance style:  Бальный танец
+Performance:  Special performance
+Date of performance:  2021-12-01
+Name:  Rodrigo
+Surname:  Este
+Dance style:  Акробатический танец
+Performance:  Great ball
+Date of performance:  2021-11-01
+'''
 connection.close()
-
-
-
-
-
-
