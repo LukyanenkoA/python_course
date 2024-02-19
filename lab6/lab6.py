@@ -148,4 +148,6 @@ Dance style:  Акробатический танец
 Performance:  Great ball
 Date of performance:  2021-11-01
 '''
+
 connection.close()
+
