@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width initial-scale=1,shrink-to-fit=no">
+    <link rel="stylesheet" href="style.css">
+</head>
+<form action="lab6. CGI.py" method="get">
+    <h2>Заполнить таблицы</h2>
+    <fieldset>
+      <legend>Заполнить таблицу Dance</legend>
+      <ul>
+        <li>
+          <label for="name">Название:*</label>
+          <input type="text" name="name" placeholder="Балет" id="name" required>
+        </li>
+        <li>
+            <label for="name">Описание:*</label>
+            <input type="text" name="name" placeholder="Появился в..." id="name" required>
+        </li>
+        <li>
+            <label for="name">Название на языке оригинала:*</label>
+            <input type="text" name="name" placeholder="Ballet" id="name" required>
+        </li>
+        <li>
+          <label for="age">Год возникновения:*</label>
+          <input type="number" name="age" placeholder="1807" id="age" min="0" max="2100" required>
+        </li>
+        <li>
+            <label for="name">Страна происхождения:*</label>
+            <input type="text" name="name" placeholder="Франция" id="name" required>
+        </li>
+      </ul>
+    </fieldset>
+    <fieldset>
+      <legend>Заполнить таблицу Artist</legend>
+      <ul>
+        <li>
+          <label for="name">Имя:*</label>
+          <input type="text" name="name" placeholder="Иван" id="name" required>
+        </li>
+        <li>
+            <label for="name">Фамилия:*</label>
+            <input type="text" name="name" placeholder="Иванов" id="name" required>
+        </li>
+        <li>
+            <label for="name">Страна:*</label>
+            <input type="text" name="name" placeholder="Франция" id="name" required>
+          </li>
+        <li>
+            <label for="name">Пол:*</label>
+            <input type="text" name="name" placeholder="Мужской" id="name" required>
+        </li>
+        <li>
+            <label for="name">Танцевальный стиль:*</label>
+            <input type="number" name="name" placeholder="1" id="name" required></li>
+      </ul>
+    </fieldset>
+    <fieldset>
+      <legend>Заполнить таблицу Performance</legend>
+      <ul>
+      <li>
+        <label for="name">Название:*</label>
+        <input type="text" name="name" placeholder="Спектакль1" id="name" required>
+      </li>
+      <li>
+          <label for="name">Дата:*</label>
+          <input type="text" name="name" placeholder="2021-12-01" id="name" required>
+      </li>
+      <li>
+          <label for="name">Страна:*</label>
+          <input type="text" name="name" placeholder="Франция" id="name" required>
+      </li>
+      <li>
+          <label for="name">Танцевальный стиль:*</label>
+          <input type="number" name="name" placeholder="1" id="name" required>
+      </li>
+      <li>
+        <label for="name">Артист:*</label>
+        <input type="number" name="name" placeholder="1" id="name" required>
+    </li>
+    </ul>
+      </ul>
+    </fieldset>
+    <div>
+      <button type="submit">Отправить</button>
+      <p>* — Обязательные поля</p>
+    </div>
+  </form>
