@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-import cgi
-import cgitb
+import cgi, cgitb
 
 from lab6.db import Database
 from lab6.schemas import Dance, Artist, Performance

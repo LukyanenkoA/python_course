@@ -204,31 +204,31 @@ class Database:
 
     def get_dances(self) -> list[Dance]:
         dances = self.cursor.execute("SELECT * FROM dances").fetchall()
-        return list(map(Dance.mapper, dances))
+        return list(map(DanceID.mapper, dances))
 
     def get_dance_by_id(self, id: int) -> Dance:
         dance = self.cursor.execute("SELECT * FROM dances WHERE dance_id=?", (id,)).fetchone()
-        return Dance.mapper(dance)
+        return DanceID.mapper(dance)
 
     def get_artists(self) -> list[Artist]:
         artists = self.cursor.execute("SELECT * FROM artists").fetchall()
-        return list(map(Artist.mapper, artists))
+        return list(map(ArtistID.mapper, artists))
 
     def get_artist_by_id(self, id: int) -> Artist:
         artist = self.cursor.execute("SELECT * FROM artists WHERE artist_id=?", (id,)).fetchone()
-        return Artist.mapper(artist)
+        return ArtistID.mapper(artist)
 
     def get_artists_by_dance_id(self, dance_id: int) -> list[Artist]:
         artists = self.cursor.execute("SELECT * FROM artists WHERE dance_id=?", (dance_id,)).fetchall()
-        return list(map(Artist.mapper, artists))
+        return list(map(ArtistID.mapper, artists))
 
-    def get_performance_by_id(self, id: int) -> Performance:
-        performance = self.cursor.execute("SELECT * FROM performances WHERE performance_id=?", (id,)).fetchone()
-        return Performance.mapper(performance)
+    def get_performance_by_id(self, performance_id: int) -> Performance:
+        performance = self.cursor.execute("SELECT * FROM performances WHERE performance_id=?", (performance_id,)).fetchone()
+        return PerformanceID.mapper(performance)
 
     def get_performances(self) -> list[Performance]:
         performances = self.cursor.execute("SELECT * FROM performances").fetchall()
-        return list(map(Performance.mapper, performances))
+        return list(map(PerformanceID.mapper, performances))
 
     def close(self):
         self.connection.commit()
