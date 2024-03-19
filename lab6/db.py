@@ -177,19 +177,19 @@ class Database:
 
         self.connection.commit()
 
-    def save_dance(self, dance: Dance):
+    def add_dance(self, dance: Dance):
         self.cursor.execute('''INSERT INTO dances (dance_name, caption, native_name, genre, year, origin) VALUES (?, 
         ?, ?, ?, ?, ?);''', (
             dance.dance_id, dance.name, dance.caption, dance.native_name, dance.genre, dance.year, dance.origin))
         self.connection.commit()
 
-    def save_artist(self, artist: Artist):
+    def add_artist(self, artist: Artist):
         self.cursor.execute('''INSERT INTO Artist (name, surname, country, gender, dance_style) VALUES (?, ?, ?, ?, 
         ?);''', (
             artist.artist_id, artist.name, artist.surname, artist.country, artist.gender, artist.dance_style))
         self.connection.commit()
 
-    def save_performance(self, performance: Performance):
+    def add_performance(self, performance: Performance):
         self.cursor.execute('''INSERT INTO Performance (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);''', (
             performance.performance_id, performance.date, performance.country, performance.dance_style, performance.artist))
         self.connection.commit()
