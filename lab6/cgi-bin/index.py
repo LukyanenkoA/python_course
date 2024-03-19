@@ -33,7 +33,7 @@ def display_dances():
     # Вывод данных
     print("<ul>")
     for dance in dances:
-        print(f"<li>{dance.name} - Описание: {dance.caption}, "
+        print(f"<li>{dance.dance_name}, "
               f"Описание: {dance.caption}, "
               f"Название на языке оригинала: {dance.native_name}, "
               f"Жанр: {dance.genre}, "
@@ -60,7 +60,7 @@ def display_artists():
     print('Фамилия: <input type="text" name="surname"><br>')
     print('Страна: <input type="text" name="country"><br>')
     print('Пол: <input type="text" name="gender"><br>')
-    print('Стиль танца: <input type="text" name="dance_style"><br>')
+    print('Стиль танца: <input type="int" name="dance_style"><br>')
     print('<input type="submit" value="Добавить артиста">')
     print('</form>')
 
@@ -68,10 +68,10 @@ def display_artists():
     print("<ul>")
     for artist in artists:
         dance = db.get_dance_by_id(artist.dance_style)
-        print(f"<li>Имя:{artist.name},"
-              f"Фамилия: {artist.caption}, "
+        print(f"<li>Имя:{artist.name}, "
+              f"Фамилия: {artist.surname}, "
               f"Страна: {artist.country}, "
-              f"Пол: {artist.native_name}, "
+              f"Пол: {artist.gender}, "
               f"Стиль танца: {dance.dance_name}</li>")
     print("</ul>")
 
@@ -82,10 +82,9 @@ def display_performances():
 
     # Обработка данных из формы
     form = cgi.FieldStorage()
-    if form.getvalue('title') and form.getvalue('date') and form.getvalue('country') and form.getvalue(
-            'dance_style') and form.getvalue('artist'):
+    if form.getvalue('title') and form.getvalue('date') and form.getvalue('country') and form.getvalue('dance_style') and form.getvalue('artist'):
         db.add_performance(Performance(title=form.getvalue('title'), date=form.getvalue('date'),
-                                       country=form.getvalue('country'), dance_style=form.getvalue('dance_style'),
+                                       country=form.getvalue('country'), dance_style=int(form.getvalue('dance_style')),
                                        artist=int(form.getvalue('artist'))))
         print("<p>Выступление добавлено успешно!</p>")
 
@@ -93,8 +92,8 @@ def display_performances():
     print('Название: <input type="text" name="title"><br>')
     print('Дата: <input type="text" name="date"><br>')
     print('Страна: <input type="text" name="country"><br>')
-    print('Стиль танца: <input type="text" name="dance_style"><br>')
-    print('Артист: <input type="text" name="artist"><br>')
+    print('Стиль танца: <input type="int" name="dance_style"><br>')
+    print('Артист: <input type="int" name="artist"><br>')
     print('<input type="submit" value="Добавить выступление">')
     print('</form>')
 

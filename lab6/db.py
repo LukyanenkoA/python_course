@@ -186,19 +186,19 @@ class Database:
     def add_dance(self, dance: Dance):
         self.cursor.execute('''INSERT INTO dances (dance_name, caption, native_name, genre, year, origin) VALUES (?, 
         ?, ?, ?, ?, ?);''', (
-            dance.dance_id, dance.name, dance.caption, dance.native_name, dance.genre, dance.year, dance.origin))
+            dance.dance_name, dance.caption, dance.native_name, dance.genre, dance.year, dance.origin))
         self.connection.commit()
 
     def add_artist(self, artist: Artist):
-        self.cursor.execute('''INSERT INTO Artist (name, surname, country, gender, dance_style) VALUES (?, ?, ?, ?, 
+        self.cursor.execute('''INSERT INTO artists (name, surname, country, gender, dance_style) VALUES (?, ?, ?, ?, 
         ?);''', (
-            artist.artist_id, artist.name, artist.surname, artist.country, artist.gender, artist.dance_style))
+            artist.name, artist.surname, artist.country, artist.gender, artist.dance_style))
         self.connection.commit()
 
     def add_performance(self, performance: Performance):
         self.cursor.execute(
-            '''INSERT INTO Performance (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);''', (
-                performance.performance_id, performance.date, performance.country, performance.dance_style,
+            '''INSERT INTO performances (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);''', (
+                performance.title, performance.date, performance.country, performance.dance_style,
                 performance.artist))
         self.connection.commit()
 
@@ -235,8 +235,9 @@ class Database:
         self.connection.close()
 
 
-db = Database()
 '''
+db = Database()
+
 connection = sqlite3.connect('database.db')
 cursor = connection.cursor()
 query = 'INSERT INTO dances (dance_name, caption, native_name, genre, year, origin) VALUES (?, ?, ?, ?, ?, ?);'
@@ -280,9 +281,10 @@ cursor.executemany(query3, insert_perfomances)
 connection.commit()
 connection.close()
 '''
+'''
 results = db.get_artists()
 print(results)
-
+'''
 '''
 Name:  Joe
 Surname:  Ricks
@@ -300,9 +302,11 @@ Name:  Rodrigo
 Surname:  Este
 Dance style:  Акробатический танец
 '''
+'''
 results = db.get_performances()
 for row in results:
     print(row)
+'''
 '''
 (1, 'Grand concert', '2021-11-01', 'USA', 1, 1)
 (2, 'Dance battle', '2022-11-30', 'China', 2, 2)
@@ -310,8 +314,10 @@ for row in results:
 (4, 'Special performance', '2021-12-01', 'Spain', 3, 4)
 (5, 'Great ball', '2021-11-01', 'USA', 4, 5)
 '''
+'''
 results = db.get_artists()
 print(results)
+'''
 '''
 Name:  Joe
 Surname:  Ricks
