@@ -5,30 +5,34 @@
     <meta name="viewport" content="width=device-width initial-scale=1,shrink-to-fit=no">
     <link rel="stylesheet" href="style.css">
 </head>
-<form action="lab6. CGI.py" method="get">
+<form action="/cgi-bin/index.py" method="get">
     <h2>Заполнить таблицы</h2>
     <fieldset>
       <legend>Заполнить таблицу Dance</legend>
       <ul>
         <li>
-          <label for="name">Название:*</label>
-          <input type="text" name="name" placeholder="Балет" id="name" required>
+          <label for="dance_name">Название:*</label>
+          <input type="text" name="name" placeholder="Балет" id="dance_name" required>
         </li>
         <li>
-            <label for="name">Описание:*</label>
-            <input type="text" name="name" placeholder="Появился в..." id="name" required>
+            <label for="caption">Описание:*</label>
+            <input type="text" name="caption" placeholder="Появился в..." id="caption" required>
         </li>
         <li>
-            <label for="name">Название на языке оригинала:*</label>
-            <input type="text" name="name" placeholder="Ballet" id="name" required>
+            <label for="native_name">Название на языке оригинала:*</label>
+            <input type="text" name="native_name" placeholder="Ballet" id="native_name" required>
         </li>
         <li>
-          <label for="age">Год возникновения:*</label>
-          <input type="number" name="age" placeholder="1807" id="age" min="0" max="2100" required>
+          <label for="genre">Год возникновения:*</label>
+          <input type="number" name="genre" placeholder="1807" id="genre" min="0" max="2100" required>
         </li>
         <li>
-            <label for="name">Страна происхождения:*</label>
-            <input type="text" name="name" placeholder="Франция" id="name" required>
+          <label for="year">Год возникновения:*</label>
+          <input type="number" name="year" placeholder="1807" id="year" min="0" max="2100" required>
+        </li>
+        <li>
+            <label for="origin">Страна происхождения:*</label>
+            <input type="text" name="origin" placeholder="Франция" id="origin" required>
         </li>
       </ul>
     </fieldset>
@@ -40,50 +44,58 @@
           <input type="text" name="name" placeholder="Иван" id="name" required>
         </li>
         <li>
-            <label for="name">Фамилия:*</label>
-            <input type="text" name="name" placeholder="Иванов" id="name" required>
+            <label for="surname">Фамилия:*</label>
+            <input type="text" name="surname" placeholder="Иванов" id="surname" required>
         </li>
         <li>
-            <label for="name">Страна:*</label>
-            <input type="text" name="name" placeholder="Франция" id="name" required>
+            <label for="country">Страна:*</label>
+            <input type="text" name="country" placeholder="Франция" id="country" required>
           </li>
         <li>
-            <label for="name">Пол:*</label>
-            <input type="text" name="name" placeholder="Мужской" id="name" required>
+            <label for="gender">Пол:*</label>
+            <input type="text" name="gender" placeholder="Мужской" id="gender" required>
         </li>
         <li>
-            <label for="name">Танцевальный стиль:*</label>
-            <input type="number" name="name" placeholder="1" id="name" required></li>
+            <label for="dance_style">Танцевальный стиль:*</label>
+            <input type="number" name="dance_style" placeholder="1" id="dance_style" required>
+        </li>
       </ul>
     </fieldset>
     <fieldset>
       <legend>Заполнить таблицу Performance</legend>
       <ul>
       <li>
-        <label for="name">Название:*</label>
-        <input type="text" name="name" placeholder="Спектакль1" id="name" required>
+        <label for="title">Название:*</label>
+        <input type="text" name="title" placeholder="Спектакль1" id="title" required>
       </li>
       <li>
-          <label for="name">Дата:*</label>
-          <input type="text" name="name" placeholder="2021-12-01" id="name" required>
+          <label for="date">Дата:*</label>
+          <input type="text" name="date" placeholder="2021-12-01" id="date" required>
       </li>
       <li>
-          <label for="name">Страна:*</label>
-          <input type="text" name="name" placeholder="Франция" id="name" required>
+          <label for="country1">Страна:*</label>
+          <input type="text" name="country" placeholder="Франция" id="country1" required>
       </li>
       <li>
-          <label for="name">Танцевальный стиль:*</label>
-          <input type="number" name="name" placeholder="1" id="name" required>
+          <label for="dance_style1">Танцевальный стиль:*</label>
+          <input type="number" name="dance_style" placeholder="1" id="dance_style1" required>
       </li>
       <li>
-        <label for="name">Артист:*</label>
-        <input type="number" name="name" placeholder="1" id="name" required>
+        <label for="artist">Артист:*</label>
+        <input type="number" name="artist" placeholder="1" id="artist" required>
     </li>
     </ul>
-      </ul>
     </fieldset>
     <div>
       <button type="submit">Отправить</button>
       <p>* — Обязательные поля</p>
     </div>
   </form>
+
+    <form action="/cgi-bin/import.py">
+        <input type="submit" value="Импорт">
+    </form>
+
+    <form action="/cgi-bin/export.py">
+        <input type="submit" value="Экспорт">
+    </form>

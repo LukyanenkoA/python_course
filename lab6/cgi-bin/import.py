@@ -33,8 +33,7 @@ print("<h2>Экспорт</h2>")
 add_form()
 print("""
 <form action = "export.py" method = "get">
-<p><input type = "submit" value = "Экспорт" /></p>
-</form>
-""")
+<p><input type = "submit" value = "Экспорт"/></p>
+</form>""")
 print("</body>")
 print("</html>")

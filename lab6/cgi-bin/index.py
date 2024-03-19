@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-import cgi, cgitb
+import cgi
+import cgitb
 
 from lab6.db import Database
 from lab6.schemas import Dance, Artist, Performance
@@ -9,7 +10,7 @@ db = Database()
 
 def display_dances():
     dances = db.get_dances()
-    print("<h2>Планеты</h2>")
+    print("<h2>Танцы</h2>")
 
     # Обработка данных из формы
     form = cgi.FieldStorage()
@@ -107,7 +108,7 @@ def display_performances():
               f"Дата: {performance.date}, "
               f"Страна: {performance.country}, "
               f"Стиль танца: {dance.dance_name}, "
-              f"Артист: {artist.name, artist.surname}</li>")
+              f"Артист: {artist.surname}</li>")
     print("</ul>")
 
 

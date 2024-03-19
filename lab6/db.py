@@ -1,11 +1,12 @@
-#вариант 8
+# вариант 8
 # Создать БД Танцы
 
 import sqlite3
 import time
 from lab6.schemas import *
 from xml.dom.minidom import Document, parseString
-#1
+
+
 class Database:
     def __init__(self):
         self.connection = sqlite3.connect('database.db')
@@ -45,10 +46,10 @@ class Database:
             dance_element.appendChild(year)
             dance_element.appendChild(origin)
             dances_elements.appendChild(dance_element)
-            
+
             for artist in self.get_artists():
                 artist_element = doc.createElement("artist")
-    
+
                 artist_id = doc.createElement("artist_id")
                 artist_id.appendChild(doc.createTextNode(str(artist.artist_id)))
                 name = doc.createElement("name")
@@ -61,7 +62,7 @@ class Database:
                 gender.appendChild(doc.createTextNode(artist.gender))
                 dance_style = doc.createElement("dance_style")
                 dance_style.appendChild(doc.createTextNode(str(artist.dance_style)))
-    
+
                 artist_element.appendChild(artist_id)
                 artist_element.appendChild(name)
                 artist_element.appendChild(surname)
@@ -69,10 +70,10 @@ class Database:
                 artist_element.appendChild(gender)
                 artist_element.appendChild(dance_style)
                 artists_elements.appendChild(artist_element)
-    
+
             for performance in self.get_performances():
                 performance_element = doc.createElement("performance")
-    
+
                 performance_id = doc.createElement("performance_id")
                 performance_id.appendChild(doc.createTextNode(str(performance.performance_id)))
                 title = doc.createElement("title")
@@ -85,7 +86,7 @@ class Database:
                 dance_style.appendChild(doc.createTextNode(str(performance.dance_style)))
                 artist = doc.createElement("artist")
                 artist.appendChild(doc.createTextNode(str(performance.artist)))
-    
+
                 performance_element.appendChild(performance_id)
                 performance_element.appendChild(title)
                 performance_element.appendChild(date)
@@ -93,7 +94,7 @@ class Database:
                 performance_element.appendChild(dance_style)
                 performance_element.appendChild(artist)
                 performances_elements.appendChild(performance_element)
-    
+
             root.appendChild(dances_elements)
             root.appendChild(performances_elements)
             root.appendChild(artists_elements)
@@ -105,9 +106,9 @@ class Database:
 
     def import_xml(self, binary):
         dom = parseString(binary)
-        dances = dom.getElementsByTagName("dance")
-        artists = dom.getElementsByTagName("artist")
-        performances = dom.getElementsByTagName("performance")
+        dances = dom.getElementsByTagName("dances")
+        artists = dom.getElementsByTagName("artists")
+        performances = dom.getElementsByTagName("performances")
         for dance in dances:
             dance_id = int(dance.getElementsByTagName("dance_id")[0].firstChild.nodeValue)
             dance_name = dance.getElementsByTagName("dance_name")[0].firstChild.nodeValue
@@ -116,16 +117,19 @@ class Database:
             dance_genre = dance.getElementsByTagName("genre")[0].firstChild.nodeValue
             dance_year = int(dance.getElementsByTagName("year")[0].firstChild.nodeValue)
             dance_origin = dance.getElementsByTagName("origin")[0].firstChild.nodeValue
-            self.save_dance(dance(dance_id=dance_id, dance_name=dance_name, caption=dance_caption, native_name=dance_native_name, genre=dance_genre, year=dance_year, origin=dance_origin))
+            self.add_dance(
+                dance(dance_id=dance_id, dance_name=dance_name, caption=dance_caption, native_name=dance_native_name,
+                      genre=dance_genre, year=dance_year, origin=dance_origin))
 
         for artist in artists:
             artist_id = int(artist.getElementsByTagName("artist_id")[0].firstChild.nodeValue)
             artist_name = artist.getElementsByTagName("name")[0].firstChild.nodeValue
             artist_surname = artist.getElementsByTagName("surname")[0].firstChild.nodeValue
             artist_country = artist.getElementsByTagName("country")[0].firstChild.nodeValue
-            artist_gender= artist.getElementsByTagName("gender")[0].firstChild.nodeValue
+            artist_gender = artist.getElementsByTagName("gender")[0].firstChild.nodeValue
             artist_dance_style = int(artist.getElementsByTagName("dance_style")[0].firstChild.nodeValue)
-            self.save_artist(artist(id=artist_id, name=artist_name, surname=artist_surname, country=artist_country, gender=artist_gender, dance_style=artist_dance_style))
+            self.add_artist(artist(id=artist_id, name=artist_name, surname=artist_surname, country=artist_country,
+                                   gender=artist_gender, dance_style=artist_dance_style))
 
         for performance in performances:
             performance_id = int(performance.getElementsByTagName("id")[0].firstChild.nodeValue)
@@ -134,7 +138,9 @@ class Database:
             performance_country = performance.getElementsByTagName("country")[0].firstChild.nodeValue
             performance_dance_style = int(performance.getElementsByTagName("dance_style")[0].firstChild.nodeValue)
             performance_artist = int(performance.getElementsByTagName("artist")[0].firstChild.nodeValue)
-            self.save_performance(performance(id=performance_id, title=performance_title, date=performance_date, country=performance_country, dance_style=performance_dance_style, artist=performance_artist))
+            self.add_performance(performance(id=performance_id, title=performance_title, date=performance_date,
+                                             country=performance_country, dance_style=performance_dance_style,
+                                             artist=performance_artist))
 
     def create_table(self):
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS dances (
@@ -190,10 +196,11 @@ class Database:
         self.connection.commit()
 
     def add_performance(self, performance: Performance):
-        self.cursor.execute('''INSERT INTO Performance (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);''', (
-            performance.performance_id, performance.date, performance.country, performance.dance_style, performance.artist))
+        self.cursor.execute(
+            '''INSERT INTO Performance (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);''', (
+                performance.performance_id, performance.date, performance.country, performance.dance_style,
+                performance.artist))
         self.connection.commit()
-
 
     def get_dances(self) -> list[Dance]:
         dances = self.cursor.execute("SELECT * FROM dances").fetchall()
@@ -228,43 +235,51 @@ class Database:
         self.connection.close()
 
 
-#3
+db = Database()
+'''
 connection = sqlite3.connect('database.db')
 cursor = connection.cursor()
-query = '''INSERT INTO dances (dance_name, caption, native_name, genre, year, origin) VALUES (?, ?, ?, ?, ?, ?);'''
+query = 'INSERT INTO dances (dance_name, caption, native_name, genre, year, origin) VALUES (?, ?, ?, ?, ?, ?);'
 insert_dances = [
-    ("Танго", "парный танец свободной композиции, исполняемый под характерную музыку", "tango", "латиноамериканские танцы", 1850, "Южная Америка"),
-    ("Балет", "спектакль, содержание которого воплощается в музыкально-хореографических образах", "ballet", "театральное искусство", 1700, "Франция"),
-    ("Бальный танец", "танец, который служит для массового развлечения и исполняется парой или большим количеством участников на танцевальных вечерах", "ball", "парный танец", 1600, "Италия"),
-    ("Акробатический танец", "вид спорта, в котором спортсмены соревнуются в техническом мастерстве и выразительности исполнения под музыку сложных акробатических движений и танцевальных элементов.", "acro dance", "парный танец", 1900, "США"),
-    ("Уличный танец", "танцевальный стиль, который развивался вне танцевальной студии", "street dance", "импровизация", 1890, "США")
+    ("Танго", "парный танец свободной композиции, исполняемый под характерную музыку", "tango",
+     "латиноамериканские танцы", 1850, "Южная Америка"),
+    ("Балет", "спектакль, содержание которого воплощается в музыкально-хореографических образах", "ballet",
+     "театральное искусство", 1700, "Франция"),
+    ("Бальный танец",
+     "танец, который служит для массового развлечения и исполняется парой или большим количеством участников на танцевальных вечерах",
+     "ball", "парный танец", 1600, "Италия"),
+    ("Акробатический танец",
+     "вид спорта, в котором спортсмены соревнуются в техническом мастерстве и выразительности исполнения под музыку сложных акробатических движений и танцевальных элементов.",
+     "acro dance", "парный танец", 1900, "США"),
+    ("Уличный танец", "танцевальный стиль, который развивался вне танцевальной студии", "street dance", "импровизация",
+     1890, "США")
 ]
 
 cursor.executemany(query, insert_dances)
-query2 = '''INSERT INTO artists (name, surname, country, gender, dance_style) VALUES (?, ?, ?, ?, ?);'''
-insert_artists= [
-('Joe', 'Ricks', 'USA', 'male', 1),
-('Xi', 'Zhitu', 'China', 'male', 2),
-('Ivan', 'Petrov', 'Russia', 'male', 5),
-('Jessi', 'Kim', 'South Korea', 'female', 3),
-('Rodrigo', 'Este', 'Spain', 'male', 4)
+query2 = 'INSERT INTO artists (name, surname, country, gender, dance_style) VALUES (?, ?, ?, ?, ?);'
+insert_artists = [
+    ('Joe', 'Ricks', 'USA', 'male', 1),
+    ('Xi', 'Zhitu', 'China', 'male', 2),
+    ('Ivan', 'Petrov', 'Russia', 'male', 5),
+    ('Jessi', 'Kim', 'South Korea', 'female', 3),
+    ('Rodrigo', 'Este', 'Spain', 'male', 4)
 ]
 
 cursor.executemany(query2, insert_artists)
-query3 = '''INSERT INTO performances (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);'''
+query3 = 'INSERT INTO performances (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);'
 insert_perfomances = [
-('Grand concert', '2021-11-01', 'USA', 1, 1),
-('Dance battle', '2022-11-30', 'China', 2, 2),
-('Street beat style', '2023-01-01', 'France', 5, 3),
-('Special performance', '2021-12-01', 'Spain', 3, 4),
-('Great ball', '2021-11-01', 'USA', 4, 5)
+    ('Grand concert', '2021-11-01', 'USA', 1, 1),
+    ('Dance battle', '2022-11-30', 'China', 2, 2),
+    ('Street beat style', '2023-01-01', 'France', 5, 3),
+    ('Special performance', '2021-12-01', 'Spain', 3, 4),
+    ('Great ball', '2021-11-01', 'USA', 4, 5)
 ]
 
 cursor.executemany(query3, insert_perfomances)
 
 connection.commit()
 connection.close()
-db = Database()
+'''
 results = db.get_artists()
 print(results)
 
@@ -324,5 +339,3 @@ Dance style:  Акробатический танец
 Performance:  Great ball
 Date of performance:  2021-11-01
 '''
-
-
