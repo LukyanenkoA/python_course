@@ -13,10 +13,11 @@ def display_dances():
 
     # Обработка данных из формы
     form = cgi.FieldStorage()
-    if form.getvalue('dance_name') and form.getvalue('caption') and form.getvalue('native_name') and form.getvalue('genre') and form.getvalue('year') and form.getvalue('origin'):
-        db.add_planet(Dance(dance_name=form.getvalue('star_id'), caption=form.getvalue('caption'),
-                            native_name=form.getvalue('native_name'), genre=form.getvalue('genre'),
-                            year=int(form.getvalue('year')), year=form.getvalue('origin')))
+    if form.getvalue('dance_name') and form.getvalue('caption') and form.getvalue('native_name') and form.getvalue(
+            'genre') and form.getvalue('year') and form.getvalue('origin'):
+        db.add_dance(Dance(dance_name=form.getvalue('dance_name'), caption=form.getvalue('caption'),
+                           native_name=form.getvalue('native_name'), genre=form.getvalue('genre'),
+                           year=int(form.getvalue('year')), origin=form.getvalue('origin')))
         print("<p>Танец добавлен успешно!</p>")
 
     print('<form action="/cgi-bin/index.py" method="post">')
@@ -25,62 +26,88 @@ def display_dances():
     print('Название на языке оригинала: <input type="text" name="native_name"><br>')
     print('Жанр: <input type="text" name="genre"><br>')
     print('Год: <input type="text" name="year"><br>')
-    print('Место возникновения: <input type="text" name="year"><br>')
+    print('Место возникновения: <input type="text" name="origin"><br>')
     print('<input type="submit" value="Добавить танец">')
     print('</form>')
 
     # Вывод данных
     print("<ul>")
     for dance in dances:
-        star = db.get_star_by_id(dance.star_id)
-        print(f"<li>{dance.name} - Радиус: {dance.radius} km, Звезда: {star.name}</li>")
+        print(f"<li>{dance.name} - Описание: {dance.caption}, "
+              f"Описание: {dance.caption}, "
+              f"Название на языке оригинала: {dance.native_name}, "
+              f"Жанр: {dance.genre}, "
+              f"Год: {dance.year}, "
+              f"Место возникновения: {dance.origin}</li>")
     print("</ul>")
 
 
-def display_moons():
-    moons = db.get_moons()
-    print("<h2>Спутники</h2>")
+def display_artists():
+    artists = db.get_artists()
+    print("<h2>Артисты</h2>")
 
     # Обработка данных из формы
-    moons_form = cgi.FieldStorage()
-    if moons_form.getvalue('name') and moons_form.getvalue('planet_id'):
-        db.add_moon(MoonRequest(planet_id=int(moons_form.getvalue('planet_id')), name=moons_form.getvalue('name')))
-        print("<p>Спутник добавлен успешно!</p>")
+    form = cgi.FieldStorage()
+    if form.getvalue('name') and form.getvalue('surname') and form.getvalue('country') and form.getvalue(
+            'gender') and form.getvalue('dance_style'):
+        db.add_artist(Artist(name=form.getvalue('name'), surname=form.getvalue('surname'),
+                             country=form.getvalue('country'), gender=form.getvalue('gender'),
+                             dance_style=int(form.getvalue('dance_style'))))
+        print("<p>Артист добавлен успешно!</p>")
 
     print('<form action="/cgi-bin/index.py" method="post">')
-    print('Название: <input type="text" name="name"><br>')
-    print('Id планеты: <input type="text" name="planet_id"><br>')
-    print('<input type="submit" value="Добавить спутник">')
+    print('Имя: <input type="text" name="name"><br>')
+    print('Фамилия: <input type="text" name="surname"><br>')
+    print('Страна: <input type="text" name="country"><br>')
+    print('Пол: <input type="text" name="gender"><br>')
+    print('Стиль танца: <input type="text" name="dance_style"><br>')
+    print('<input type="submit" value="Добавить артиста">')
     print('</form>')
 
     # Вывод данных
     print("<ul>")
-    for moon in moons:
-        planet = db.get_planet_by_id(moon.planet_id)
-        print(f"<li>{moon.name} - Спутник планеты: {planet.name}</li>")
+    for artist in artists:
+        dance = db.get_dance_by_id(artist.dance_style)
+        print(f"<li>Имя:{artist.name},"
+              f"Фамилия: {artist.caption}, "
+              f"Страна: {artist.country}, "
+              f"Пол: {artist.native_name}, "
+              f"Стиль танца: {dance.dance_name}</li>")
     print("</ul>")
 
 
-def display_stars():
-    stars = db.get_stars()
-    print("<h2>Звезды</h2>")
+def display_performances():
+    performances = db.get_performances()
+    print("<h2>Выступления</h2>")
 
     # Обработка данных из формы
-    stars_form = cgi.FieldStorage()
-    if stars_form.getvalue('name') and stars_form.getvalue('mass'):
-        db.add_star(StarRequest(mass=int(stars_form.getvalue('mass')), name=stars_form.getvalue('name')))
-        print("<p>Звезда добавлена успешно!</p>")
+    form = cgi.FieldStorage()
+    if form.getvalue('title') and form.getvalue('date') and form.getvalue('country') and form.getvalue(
+            'dance_style') and form.getvalue('artist'):
+        db.add_performance(Performance(title=form.getvalue('title'), date=form.getvalue('date'),
+                                       country=form.getvalue('country'), dance_style=form.getvalue('dance_style'),
+                                       artist=int(form.getvalue('artist'))))
+        print("<p>Выступление добавлено успешно!</p>")
 
     print('<form action="/cgi-bin/index.py" method="post">')
-    print('Название: <input type="text" name="name"><br>')
-    print('Масса: <input type="text" name="mass"><br>')
-    print('<input type="submit" value="Добавить звезду">')
+    print('Название: <input type="text" name="title"><br>')
+    print('Дата: <input type="text" name="date"><br>')
+    print('Страна: <input type="text" name="country"><br>')
+    print('Стиль танца: <input type="text" name="dance_style"><br>')
+    print('Артист: <input type="text" name="artist"><br>')
+    print('<input type="submit" value="Добавить выступление">')
     print('</form>')
 
     # Вывод данных
     print("<ul>")
-    for star in stars:
-        print(f"<li>{star.name} - Масса: {star.mass}</li>")
+    for performance in performances:
+        dance = db.get_dance_by_id(performance.dance_style)
+        artist = db.get_artist_by_id(performance.artist)
+        print(f"<li>Название:{performance.title},"
+              f"Дата: {performance.date}, "
+              f"Страна: {performance.country}, "
+              f"Стиль танца: {dance.dance_name}, "
+              f"Артист: {artist.name, artist.surname}</li>")
     print("</ul>")
 
 
@@ -90,12 +117,12 @@ print()
 print("<html>")
 print("<head>")
 print('<meta charset="utf-8">')
-print("<title>Космос</title>")
+print("<title>Танцы</title>")
 print("</head>")
 print("<body>")
 print('<header><a href="http://localhost:8000/cgi-bin/import.py">Импорт/Экспорт</a></header>')
 display_dances()
-display_stars()
-display_moons()
+display_artists()
+display_performances()
 print("</body>")
 print("</html>")

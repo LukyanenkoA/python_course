@@ -169,8 +169,8 @@ class Database:
                             );''')
 
         self.cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS dances_id ON dances(dance_id);')
-        self.cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS performances_id ON performances(id);')
-        self.cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS artists_id ON artists(id);')
+        self.cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS performances_id ON performances(performance_id);')
+        self.cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS artists_id ON artists(artist_id);')
         self.cursor.execute('CREATE INDEX IF NOT EXISTS artists_dance_styles ON artists(dance_style);')
         self.cursor.execute('CREATE INDEX IF NOT EXISTS performances_dance_styles ON performances(dance_style);')
         self.cursor.execute('CREATE INDEX IF NOT EXISTS performances_artists ON performances(artist);')
@@ -194,47 +194,34 @@ class Database:
             performance.performance_id, performance.date, performance.country, performance.dance_style, performance.artist))
         self.connection.commit()
 
-    def add_performance(self, performance: __Performance):
-        self.cursor.execute('INSERT INTO performances (name, mass) VALUES (?, ?)', (performance.name, performance.id))
-        self.connection.commit()
 
-    def add_dance(self, dance: danceRequest):
-        self.cursor.execute('INSERT INTO dances (name, radius, performance_id) VALUES (?, ?, ?)',
-                            (dance.name, dance.radius, dance.performance_id))
-        self.connection.commit()
-
-    def add_artist(self, artist: artistRequest):
-        self.cursor.execute('INSERT INTO artists (name, dance_id) VALUES (?, ?)',
-                            (artist.name, artist.dance_id))
-        self.connection.commit()
-
-    def get_dances(self) -> list[dance]:
+    def get_dances(self) -> list[Dance]:
         dances = self.cursor.execute("SELECT * FROM dances").fetchall()
-        return list(map(dance.mapper, dances))
+        return list(map(Dance.mapper, dances))
 
-    def get_dance_by_id(self, id: int) -> dance:
-        dance = self.cursor.execute("SELECT * FROM dances WHERE id=?", (id,)).fetchone()
-        return dance.mapper(dance)
+    def get_dance_by_id(self, id: int) -> Dance:
+        dance = self.cursor.execute("SELECT * FROM dances WHERE dance_id=?", (id,)).fetchone()
+        return Dance.mapper(dance)
 
-    def get_artists(self) -> list[artist]:
+    def get_artists(self) -> list[Artist]:
         artists = self.cursor.execute("SELECT * FROM artists").fetchall()
-        return list(map(artist.mapper, artists))
+        return list(map(Artist.mapper, artists))
 
-    def get_artist_by_id(self, id: int) -> artist:
-        artist = self.cursor.execute("SELECT * FROM artists WHERE id=?", (id,)).fetchone()
-        return artist.mapper(artist)
+    def get_artist_by_id(self, id: int) -> Artist:
+        artist = self.cursor.execute("SELECT * FROM artists WHERE artist_id=?", (id,)).fetchone()
+        return Artist.mapper(artist)
 
-    def get_artists_by_dance_id(self, dance_id: int) -> list[artist]:
+    def get_artists_by_dance_id(self, dance_id: int) -> list[Artist]:
         artists = self.cursor.execute("SELECT * FROM artists WHERE dance_id=?", (dance_id,)).fetchall()
-        return list(map(artist.mapper, artists))
+        return list(map(Artist.mapper, artists))
 
-    def get_performance_by_id(self, id: int) -> performance:
-        performance = self.cursor.execute("SELECT * FROM performances WHERE id=?", (id,)).fetchone()
-        return performance.mapper(performance)
+    def get_performance_by_id(self, id: int) -> Performance:
+        performance = self.cursor.execute("SELECT * FROM performances WHERE performance_id=?", (id,)).fetchone()
+        return Performance.mapper(performance)
 
-    def get_performances(self) -> list[performance]:
+    def get_performances(self) -> list[Performance]:
         performances = self.cursor.execute("SELECT * FROM performances").fetchall()
-        return list(map(performance.mapper, performances))
+        return list(map(Performance.mapper, performances))
 
     def close(self):
         self.connection.commit()
@@ -242,7 +229,9 @@ class Database:
 
 
 #3
-query = '''INSERT INTO Dance (dance_name, caption, native_name, genre, year, origin) VALUES (?, ?, ?, ?, ?, ?);'''
+connection = sqlite3.connect('database.db')
+cursor = connection.cursor()
+query = '''INSERT INTO dances (dance_name, caption, native_name, genre, year, origin) VALUES (?, ?, ?, ?, ?, ?);'''
 insert_dances = [
     ("Танго", "парный танец свободной композиции, исполняемый под характерную музыку", "tango", "латиноамериканские танцы", 1850, "Южная Америка"),
     ("Балет", "спектакль, содержание которого воплощается в музыкально-хореографических образах", "ballet", "театральное искусство", 1700, "Франция"),
@@ -250,9 +239,9 @@ insert_dances = [
     ("Акробатический танец", "вид спорта, в котором спортсмены соревнуются в техническом мастерстве и выразительности исполнения под музыку сложных акробатических движений и танцевальных элементов.", "acro dance", "парный танец", 1900, "США"),
     ("Уличный танец", "танцевальный стиль, который развивался вне танцевальной студии", "street dance", "импровизация", 1890, "США")
 ]
-cursor.executemany(query, insert_dances)
 
-query2 = '''INSERT INTO Artist (name, surname, country, gender, dance_style) VALUES (?, ?, ?, ?, ?);'''
+cursor.executemany(query, insert_dances)
+query2 = '''INSERT INTO artists (name, surname, country, gender, dance_style) VALUES (?, ?, ?, ?, ?);'''
 insert_artists= [
 ('Joe', 'Ricks', 'USA', 'male', 1),
 ('Xi', 'Zhitu', 'China', 'male', 2),
@@ -260,10 +249,9 @@ insert_artists= [
 ('Jessi', 'Kim', 'South Korea', 'female', 3),
 ('Rodrigo', 'Este', 'Spain', 'male', 4)
 ]
+
 cursor.executemany(query2, insert_artists)
-
-query3 = '''INSERT INTO Performance (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);'''
-
+query3 = '''INSERT INTO performances (title, date, country, dance_style, artist) VALUES (?, ?, ?, ?, ?);'''
 insert_perfomances = [
 ('Grand concert', '2021-11-01', 'USA', 1, 1),
 ('Dance battle', '2022-11-30', 'China', 2, 2),
@@ -271,17 +259,14 @@ insert_perfomances = [
 ('Special performance', '2021-12-01', 'Spain', 3, 4),
 ('Great ball', '2021-11-01', 'USA', 4, 5)
 ]
+
 cursor.executemany(query3, insert_perfomances)
 
 connection.commit()
-
-#4
-cursor.execute('SELECT name, surname, dance_name FROM Artist, Dance WHERE Dance.dance_id = Artist.dance_style')
-results = cursor.fetchall()
-for row in results:
-    print("Name: ", row[0])
-    print("Surname: ", row[1])
-    print("Dance style: ", row[2])
+connection.close()
+db = Database()
+results = db.get_artists()
+print(results)
 
 '''
 Name:  Joe
@@ -300,8 +285,7 @@ Name:  Rodrigo
 Surname:  Este
 Dance style:  Акробатический танец
 '''
-cursor.execute('SELECT * FROM Performance')
-results = cursor.fetchall()
+results = db.get_performances()
 for row in results:
     print(row)
 '''
@@ -311,14 +295,8 @@ for row in results:
 (4, 'Special performance', '2021-12-01', 'Spain', 3, 4)
 (5, 'Great ball', '2021-11-01', 'USA', 4, 5)
 '''
-cursor.execute('SELECT name, surname, dance_name, title, date FROM Artist, Dance, Performance WHERE Dance.dance_id = Performance.dance_style and Performance.artist = Artist.artist_id')
-results = cursor.fetchall()
-for row in results:
-    print("Name: ", row[0])
-    print("Surname: ", row[1])
-    print("Dance style: ", row[2])
-    print("Performance: ", row[3])
-    print("Date of performance: ", row[4])
+results = db.get_artists()
+print(results)
 '''
 Name:  Joe
 Surname:  Ricks
@@ -347,5 +325,4 @@ Performance:  Great ball
 Date of performance:  2021-11-01
 '''
 
-connection.close()
 
