@@ -37,7 +37,7 @@ class Artist(models.Model):
     dance_style = models.ForeignKey(Dance, on_delete=models.CASCADE)
 
     def __unicode__(self):
-        return self.name + ' ' + self.surname
+        return ''.join([str(self.name), str(self.surname)])
 
     def __str__(self):
         return ' '.join([
