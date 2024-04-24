@@ -1,0 +1,16 @@
+{% extends 'dance/layout.html '%}
+
+{% block content %}
+    <div class="features">
+        <h1>Форма для редактирования записи Artists</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form.name}}<br>
+            {{form.surname}}<br>
+            {{form.country}}<br>
+            <span>{{error}}</span>
+            <button class="btn btn-success" type="submit">Изменить</button>
+        </form>
+    </div>
+{% endblock %}
+{% block title %}Форма для редактирования записи Artists{% endblock %}

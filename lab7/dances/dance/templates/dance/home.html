@@ -1,0 +1,24 @@
+{% extends 'dance/layout.html '%}
+
+{% block content %}
+    <div class="features">
+        <h1>Artists</h1>
+        {% for a in artist %}
+        <div class="alert alert-warning">
+            <h3>{{a.name}}</h3>
+            <h5>Профессии:</h5>
+            {% for p in p_list %}
+                {%if a == p.dance%}
+                    {% for p in prof %}
+                        {%if p == wp.prof%}
+                            <p>{{p.perf}}</p>
+                        {%endif%}
+                    {% endfor %}
+                {%endif%}
+            {% endfor %}
+            <a href="{% url 'artist-detail' a.id %}" class="btn btn-warning">Читать детальнее об артисте</a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block title %}Artists{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'dance/layout.html '%}
+
+{% block content %}
+    <div class="features">
+        <h1>{{artist.name}}</h1>
+        <p>{{artist.surname}}</p>
+        <p>{{artist.country}}</p>
+        <p>{{artist.gender}}</p>
+        <p>{{artist.dance_style}}</p>
+    </div>
+{% endblock %}
+{% block title %}{{artist.name}}{% endblock %}
