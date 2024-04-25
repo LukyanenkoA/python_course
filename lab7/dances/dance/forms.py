@@ -5,7 +5,7 @@ from django.forms import ModelForm, TextInput
 class DanceForm(ModelForm):
     class Meta:
         model = Dance
-        fields = ['dance_name', 'caption', 'genre']
+        fields = ['dance_name', 'caption', 'native_name', 'genre', 'year', 'origin']
 
         widgets = {
             "dance_name": TextInput(attrs={
@@ -16,9 +16,17 @@ class DanceForm(ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Описание'
             }),
-            "genre": TextInput(attrs={
+            "native_name": TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Жанр'
+                'placeholder': 'Имя на языке оригинала'
+            }),
+            "year": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Год'
+            }),
+            "origin": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Страна происхождения'
             })
         }
 
@@ -26,7 +34,7 @@ class DanceForm(ModelForm):
 class ArtistForm(ModelForm):
     class Meta:
         model = Artist
-        fields = ['name', 'surname', 'country']
+        fields = ['name', 'surname', 'country', 'gender']
 
         widgets = {
             "name": TextInput(attrs={
@@ -40,6 +48,10 @@ class ArtistForm(ModelForm):
             "country": TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Страна'
+            }),
+            "gender": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Пол'
             })
         }
 

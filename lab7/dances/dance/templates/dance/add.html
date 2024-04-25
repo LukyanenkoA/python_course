@@ -1,4 +1,4 @@
-{% extends 'main/layout.html '%}
+{% extends 'dance/layout.html '%}
 
 {% block content %}
     <div class="features">
@@ -8,9 +8,13 @@
             {{form1.name}}<br>
             {{form1.surname}}<br>
             {{form1.country}}<br>
+            {{form1.gender}}<br>
             {{form2.dance_name}}<br>
             {{form2.caption}}<br>
+            {{form2.native_name}}<br>
             {{form2.genre}}<br>
+            {{form2.year}}<br>
+            {{form2.origin}}<br>
             <span>{{error}}</span>
             <button class="btn btn-success" type="submit">Добавить</button>
         </form>

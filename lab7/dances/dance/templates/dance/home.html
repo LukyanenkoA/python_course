@@ -16,7 +16,7 @@
                     {% endfor %}
                 {%endif%}
             {% endfor %}
-            <a href="{% url 'artist-detail' a.id %}" class="btn btn-warning">Читать детальнее об артисте</a>
+            <a href="{% url 'detail' a.id %}" class="btn btn-warning">Читать детальнее об артисте</a>
         </div>
         {% endfor %}
     </div>

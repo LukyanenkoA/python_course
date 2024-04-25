@@ -16,7 +16,7 @@ def dance_home(request):
 
 class ArtistDetailView(DetailView):
     model = Artist
-    template_name = 'dance/detail.html'
+    template_name = 'dance/details.html'
     context_object_name = 'artist'
 
 class ArtistUpdateView(UpdateView):
@@ -39,11 +39,20 @@ def add(request):
         form1 = ArtistForm(request.POST)
         form2 = DanceForm(request.POST)
         a = Artist.objects.all()
+        d = Dance.objects.all()
         if form1.is_valid() and form2.is_valid():
+            dance_obj = Dance(dance_name=form2.cleaned_data.get("dance_name"),caption=form2.cleaned_data.get("caption"),
+                              native_name=form2.cleaned_data.get("native_name"),
+                              genre=form2.cleaned_data.get("genre"),year=int(form2.cleaned_data.get("year")),
+                              origin=form2.cleaned_data.get("origin"))
+            dance_obj.save()
             artist = Artist(name=form1.cleaned_data.get("name"), surname=form1.cleaned_data.get("surname"),
-                            country=form1.cleaned_data.get("country"))
-            artist_info = [form1.cleaned_data.get("name"), form1.cleaned_data.get("surname"),
-                           form1.cleaned_data.get("country")]
+                            country=form1.cleaned_data.get("country"), gender=form1.cleaned_data.get("gender"),
+                            dance_style=dance_obj)
+            artist.save()
+
+            '''artist_info = [form1.cleaned_data.get("name"), form1.cleaned_data.get("surname"),
+                           form1.cleaned_data.get("country"), form1.cleaned_data.get("gender"), form1.cleaned_data.get("dance_style")]
             a_list = []
             for el in a:
                 a_list.append([el.name, el.surname, el.country])
@@ -55,12 +64,8 @@ def add(request):
                     if artist_info[0] == el.name and artist_info[1] == el.surname and artist_info[2] == el.country:
                         artist = el
                 error += "Пользователь уже существует."
-            dance_form = Dance(dance_name=form2.cleaned_data.get("dance_name"),caption=form2.cleaned_data.get("caption"),
-                              genre=form2.cleaned_data.get("genre"),)
-            d = Dance.objects.all()
-            p_list = Performance.objects.all()
         else:
-            error = 'Неверно заполнены данные или такой пользователь уже есть'
+            error = 'Неверно заполнены данные или такой пользователь уже есть' '''
     form1 = ArtistForm()
     form2 = DanceForm()
     data = {
